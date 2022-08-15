@@ -23,7 +23,7 @@ function getChoiceNumber(choice)
     1:scissors
     2:paper
 **/
-function playRound(playerChoice,computerChoice)
+function getWinner(playerChoice,computerChoice)
 {
     let playerNumber=getChoiceNumber(playerChoice);
     let computerNumber=getChoiceNumber(computerChoice);
@@ -31,31 +31,45 @@ function playRound(playerChoice,computerChoice)
     else if(computerNumber===playerNumber) return 0;
     else return -1;
 }
-function game()
+function playRound(e)
 {
-    let gameResult=0;
-    for(let i=0;i<5;i++)
+    if(playerScore>=5||computerScore>=5)return;
+    this.classList.add("chosen");
+    let playerChoice=this.id;
+    let computerChoice=getComputerChoice();
+    let res=getWinner(playerChoice,computerChoice);
+    if(res===1)playerScore++;
+    if(res===-1)computerScore++;
+    let score=document.querySelector(".score");
+    let roundResult=document.querySelector(".round-result");
+    switch(res)
     {
-        console.log(`Round ${i+1}:`);
-        let playerChoice=prompt("Enter your choice").toLowerCase();
-        let computerChoice=getComputerChoice();
-        let roundResult=playRound(playerChoice,computerChoice);
-        console.log(`   Your choice: ${playerChoice}`);
-        console.log(`   Computer choice: ${computerChoice}`);
-        switch(roundResult)
-        {
-            case -1:
-                console.log(`   You lose, ${computerChoice} beats ${playerChoice}`);
-                break;
-            case 1:
-                console.log(`   You win, ${playerChoice} beats ${computerChoice}`);
-                break;
-            default:
-                console.log("   Draw!!");
-        }
-        gameResult+=roundResult;
+        case -1:
+            roundResult.textContent=`   You lose, ${computerChoice} beats ${playerChoice}.`;
+            break;
+        case 1:
+            roundResult.textContent=`   You win, ${playerChoice} beats ${computerChoice}.`;
+            break;
+        default:
+            roundResult.textContent="   Draw!!";
     }
-    if(gameResult>0)alert("Congratulation! You win this game");
-    else if(gameResult<0) alert("Unfortunately you lose this game");
-    else alert("It is a draw!!");
+    score.textContent=playerScore+"-"+computerScore;
+    if(playerScore===5)
+    {
+        setTimeout(()=>document.body.innerHTML="<div class='statement'>You win this game!!!!</div>",2000);
+    }
+    if(computerScore===5)
+    {
+        setTimeout(()=>document.body.innerHTML="<div class='statement'>You lose this game!!!!</div>",2000);
+    }
 }
+function removeChosen(e)
+{
+    if(!(this.classList.contains("chosen")&&e.propertyName==="transform"))return;
+    this.classList.remove("chosen");
+}
+let playerScore=0,
+    computerScore=0;
+let button=document.querySelectorAll("button");
+button.forEach((button)=>button.addEventListener("click",playRound));
+button.forEach((button)=>button.addEventListener("transitionend",removeChosen));
