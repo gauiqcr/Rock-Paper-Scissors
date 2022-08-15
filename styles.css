@@ -1,0 +1,43 @@
+body {
+    text-align: center;
+    background-color: gray;
+}
+.statement {
+    font-size: 64px;
+    font-weight: bold;
+    color: white;
+    margin: 200px auto auto;
+}
+.score-statement {
+    margin:50px auto;
+    font-size:60px;
+    color:darkorange;
+    font-weight: bolder;
+}
+.choices{
+    padding-top: 100px;
+    display:flex;
+    justify-content: center;
+    gap:100px;
+}
+button {
+    background-color: black;
+    border-color:blueviolet;
+    border-width: 5px;
+    color: white;
+    border-radius: 10px;
+    font-size: 48px;
+    transition: all 0.2s ease;
+}
+.score{
+    font-size:50px;
+}
+.round-result {
+    font-size:40px;
+    margin: 30px auto;
+    color:gainsboro;
+}
+.chosen{
+    transform:scale(1.1);
+    border-color:yellow;
+}
